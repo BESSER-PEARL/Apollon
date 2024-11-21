@@ -33,6 +33,7 @@
     "ClassDiagram": {
       "Package": "Package",
       "Class": "Class",
+      "AssoClass": "Association",
       "AbstractClass": "Abstract",
       "Interface": "Interface",
       "Enumeration": "Enumeration",

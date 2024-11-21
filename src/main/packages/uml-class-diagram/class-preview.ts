@@ -10,7 +10,7 @@ import { UMLClassPackage } from './uml-class-package/uml-class-package';
 import { UMLClass } from './uml-class/uml-class';
 import { UMLEnumeration } from './uml-enumeration/uml-enumeration';
 import { UMLInterface } from './uml-interface/uml-interface';
-import { UMLAbstractClass2 } from './uml-abstract-class2/uml-abstract-class2';
+import { UMLAssoClass } from './uml-asso-class/uml-asso-class';
 
 export const composeClassPreview: ComposePreview = (layer: ILayer, translate: (id: string) => string): UMLElement[] => {
   const elements: UMLElement[] = [];
@@ -88,16 +88,16 @@ export const composeClassPreview: ComposePreview = (layer: ILayer, translate: (i
   umlAbstract.ownedElements = [umlAbstractAttribute.id, umlAbstractMethod.id];
   elements.push(...(umlAbstract.render(layer, [umlAbstractAttribute, umlAbstractMethod]) as UMLElement[]));
 
-  // UML Abstract Class 2
-  const umlAbstract2 = new UMLAbstractClass2({ name: translate('packages.ClassDiagram.AbstractClass2') });
-  umlAbstract2.bounds = {
-    ...umlAbstract2.bounds,
-    width: umlAbstract2.bounds.width,
-    height: umlAbstract2.bounds.height,
+  // UML Association Class
+  const umlAssoClass = new UMLAssoClass({ name: translate('packages.ClassDiagram.AssoClass') });
+  umlAssoClass.bounds = {
+    ...umlAssoClass.bounds,
+    width: umlAssoClass.bounds.width,
+    height: umlAssoClass.bounds.height,
   };
-  const umlAbstract2Attribute = new UMLClassAttribute({
+  const umlAssoClassAttribute = new UMLClassAttribute({
     name: translate('sidebar.classAttribute'),
-    owner: umlAbstract2.id,
+    owner: umlAssoClass.id,
     bounds: {
       x: 0,
       y: 40,
@@ -105,9 +105,9 @@ export const composeClassPreview: ComposePreview = (layer: ILayer, translate: (i
       height: computeDimension(1.0, 30),
     },
   });
-  const umlAbstract2Method = new UMLClassMethod({
+  const umlAssoClassMethod = new UMLClassMethod({
     name: translate('sidebar.classMethod'),
-    owner: umlAbstract2.id,
+    owner: umlAssoClass.id,
     bounds: {
       x: 0,
       y: 70,
@@ -115,8 +115,8 @@ export const composeClassPreview: ComposePreview = (layer: ILayer, translate: (i
       height: computeDimension(1.0, 30),
     },
   });
-  umlAbstract2.ownedElements = [umlAbstract2Attribute.id, umlAbstract2Method.id];
-  elements.push(...(umlAbstract2.render(layer, [umlAbstract2Attribute, umlAbstract2Method]) as UMLElement[]));
+  umlAssoClass.ownedElements = [umlAssoClassAttribute.id, umlAssoClassMethod.id];
+  elements.push(...(umlAssoClass.render(layer, [umlAssoClassAttribute, umlAssoClassMethod]) as UMLElement[]));
 
   // UML Interface
   const umlInterface = new UMLInterface({

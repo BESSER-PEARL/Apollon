@@ -6,7 +6,7 @@ export const ClassElementType = {
   Enumeration: 'Enumeration',
   ClassAttribute: 'ClassAttribute',
   ClassMethod: 'ClassMethod',
-  AbstractClass2: 'AbstractClass2',
+  AssoClass: 'AssoClass',
 } as const;
 
 export const ClassRelationshipType = {
