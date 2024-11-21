@@ -61,22 +61,37 @@ export class ModelState {
     const apollonRelationships = model.relationships;
 
     const deserialize = (apollonElement: Apollon.UMLElement): UMLElement[] => {
-      const element = new UMLElements[apollonElement.type]();
-      const children: Apollon.UMLElement[] = UMLContainer.isUMLContainer(element)
-        ? Object.values(apollonElements)
-            .filter((child) => child.owner === apollonElement.id)
-            .map((val) => {
-              const parent = apollonElements[val.owner!];
-              return {
-                ...val,
-                bounds: { ...val.bounds, x: val.bounds.x - parent.bounds.x, y: val.bounds.y - parent.bounds.y },
-              } as Apollon.UMLElement;
-            })
-        : [];
+      if (!(apollonElement.type in UMLElements)) {
+        console.error(`Unknown element type: ${apollonElement.type}`);
+        return [];
+      }
 
-      element.deserialize(apollonElement, children);
+      try {
+        const ElementClass = UMLElements[apollonElement.type];
+        const element = new ElementClass();
+        
+        const children: Apollon.UMLElement[] = UMLContainer.isUMLContainer(element)
+          ? Object.values(apollonElements)
+              .filter((child) => child.owner === apollonElement.id)
+              .map((val) => {
+                const parent = apollonElements[val.owner!];
+                return {
+                  ...val,
+                  bounds: { 
+                    ...val.bounds, 
+                    x: val.bounds.x - parent.bounds.x, 
+                    y: val.bounds.y - parent.bounds.y 
+                  },
+                } as Apollon.UMLElement;
+              })
+          : [];
 
-      return [element, ...children.reduce<UMLElement[]>((acc, val) => [...acc, ...deserialize(val)], [])];
+        element.deserialize(apollonElement, children);
+        return [element, ...children.reduce<UMLElement[]>((acc, val) => [...acc, ...deserialize(val)], [])];
+      } catch (err) {
+        console.error(`Failed to create element of type ${apollonElement.type}:`, err);
+        return [];
+      }
     };
 
     const elements = Object.values(apollonElements)

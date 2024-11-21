@@ -53,11 +53,13 @@ import { BPMNPool } from './bpmn/bpmn-pool/bpmn-pool';
 import { BPMNSwimlane } from './bpmn/bpmn-swimlane/bpmn-swimlane';
 import { BPMNGroup } from './bpmn/bpmn-group/bpmn-group';
 import { BPMNDataStore } from './bpmn/bpmn-data-store/bpmn-data-store';
+import { UMLAbstractClass2 } from './uml-class-diagram/uml-abstract-class2/uml-abstract-class2';
 
 export const UMLElements = {
   [UMLElementType.Package]: UMLClassPackage,
   [UMLElementType.Class]: UMLClass,
   [UMLElementType.AbstractClass]: UMLAbstractClass,
+  [UMLElementType.AbstractClass2]: UMLAbstractClass2,
   [UMLElementType.Interface]: UMLInterface,
   [UMLElementType.Enumeration]: UMLEnumeration,
   [UMLElementType.ClassAttribute]: UMLClassAttribute,

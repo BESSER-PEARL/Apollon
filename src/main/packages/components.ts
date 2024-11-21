@@ -72,6 +72,7 @@ export const Components: {
   [UMLElementType.Package]: UMLClassPackageComponent,
   [UMLElementType.Class]: UMLClassifierComponent,
   [UMLElementType.AbstractClass]: UMLClassifierComponent,
+  [UMLElementType.AbstractClass2]: UMLClassifierComponent,
   [UMLElementType.Interface]: UMLClassifierComponent,
   [UMLElementType.Enumeration]: UMLClassifierComponent,
   [UMLElementType.ClassAttribute]: UMLClassifierMemberComponent,

@@ -42,6 +42,7 @@ export const Popups: { [key in UMLElementType | UMLRelationshipType]: ComponentT
   [UMLElementType.Package]: DefaultPopup,
   [UMLElementType.Class]: UMLClassifierUpdate,
   [UMLElementType.AbstractClass]: UMLClassifierUpdate,
+  [UMLElementType.AbstractClass2]: UMLClassifierUpdate,
   [UMLElementType.Interface]: UMLClassifierUpdate,
   [UMLElementType.Enumeration]: UMLClassifierUpdate,
   [UMLElementType.ClassAttribute]: null,

@@ -44,7 +44,8 @@
       "ClassDependency": "Dependency",
       "ClassInheritance": "Inheritance",
       "ClassRealization": "Realization",
-      "ClassUnidirectional": "Association (unidirectional)"
+      "ClassUnidirectional": "Association (unidirectional)",
+      "AbstractClass2": "Abstract Class 2"
     },
     "ObjectDiagram": {
       "ObjectName": "Object",
