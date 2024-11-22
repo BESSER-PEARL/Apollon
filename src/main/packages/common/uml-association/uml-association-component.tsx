@@ -4,7 +4,7 @@ import { Point } from '../../../utils/geometry/point';
 import { ClassRelationshipType } from '../../uml-class-diagram';
 import { UMLAssociation } from './uml-association';
 import { UMLRelationshipType } from '../../uml-relationship-type';
-import { ThemedPath, ThemedPathContrast, ThemedPolyline } from '../../../components/theme/themedComponents';
+import { ThemedPath, ThemedPathContrast, ThemedPolyline, ThemedCircle } from '../../../components/theme/themedComponents';
 
 const Marker = {
   Arrow: (id: string, color?: string) => (
@@ -135,11 +135,34 @@ export const UMLAssociationComponent: FunctionComponent<Props> = ({ element }) =
   })(element.type);
 
   const path = element.path.map((point) => new Point(point.x, point.y));
+  
+  // Calculate center point for the rose circle
+  let centerPoint = new Point(0, 0);
+  if (path.length >= 2) {
+    const totalLength = path.reduce((acc, point, i) => {
+      if (i === 0) return 0;
+      return acc + point.subtract(path[i - 1]).length;
+    }, 0);
+    
+    let currentLength = 0;
+    for (let i = 1; i < path.length; i++) {
+      const segmentLength = path[i].subtract(path[i - 1]).length;
+      if (currentLength + segmentLength >= totalLength / 2) {
+        const remainingLength = (totalLength / 2) - currentLength;
+        const ratio = remainingLength / segmentLength;
+        centerPoint = path[i - 1].add(path[i].subtract(path[i - 1]).scale(ratio));
+        break;
+      }
+      currentLength += segmentLength;
+    }
+  }
+
   const source: Point = computeTextPositionForUMLAssociation(path);
   const target: Point = computeTextPositionForUMLAssociation(path.reverse(), !!marker);
   const id = `marker-${element.id}`;
 
   const textFill = element.textColor ? { fill: element.textColor } : {};
+  
   return (
     <g>
       {marker && marker(id, element.strokeColor)}
@@ -151,6 +174,18 @@ export const UMLAssociationComponent: FunctionComponent<Props> = ({ element }) =
         markerEnd={`url(#${id})`}
         strokeDasharray={stroke}
       />
+      
+      {/* Add rose circle in the middle */}
+      <ThemedCircle
+        cx={centerPoint.x}
+        cy={centerPoint.y}
+        r={15}
+        fillColor="#FFB6C1"
+        strokeColor={element.strokeColor || 'black'}
+        strokeWidth={1}
+      />
+
+      {/* Existing text elements */}
       <text
         x={source.x || 0}
         y={source.y || 0}
