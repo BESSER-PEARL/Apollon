@@ -185,5 +185,10 @@
       "StateObjectNode": "Object",
       "StateTransition": "Transition"
     }
+  },
+  "common": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save"
   }
 }

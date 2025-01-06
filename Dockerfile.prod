@@ -1,0 +1,34 @@
+# Build stage
+FROM node:18.20.4 as builder
+
+WORKDIR /app
+
+# Copy package files first
+COPY package*.json ./
+COPY tsconfig*.json ./
+
+# Set environment variables
+ENV HUSKY=0
+ENV DISABLE_HUSKY=1
+ENV CI=true
+ENV NODE_ENV=production
+
+# Install dependencies
+RUN npm install -g typescript rimraf
+RUN npm install --legacy-peer-deps
+
+# Copy source code
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Production stage with Nginx
+FROM nginx:alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,26 +1,28 @@
-FROM node:18.20.4
-
+# Build stage
+FROM node:20-alpine AS build-stage
 WORKDIR /app
 
-# Copy package files
+# Set environment to production
+ENV NODE_ENV=production
+
+# Install dependencies first (better layer caching)
 COPY package*.json ./
+COPY tsconfig*.json ./
+COPY webpack ./webpack
+RUN npm install --legacy-peer-deps --ignore-scripts --production
 
-# Disable husky completely
-ENV HUSKY=0
-ENV DISABLE_HUSKY=1
-ENV CI=true
-
-# Add monaco-editor to package.json before installing
-RUN npm pkg set dependencies.monaco-editor="0.52.0"
-
-# Copy the rest of the application code
+# Copy source files
 COPY . .
 
-# Install dependencies without running scripts
-RUN npm install --ignore-scripts
+# Build TypeScript files if needed
+RUN npm run prepare:full || true
 
-# Expose the port the app runs on
-EXPOSE 8888
+# Build the application
+RUN npm run build
 
-# Start the application
-CMD ["npm", "start"]
+# Production stage
+FROM nginx:stable-alpine
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

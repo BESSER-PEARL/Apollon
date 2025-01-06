@@ -1,21 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es2021",
-    "module": "es2020",
-    "moduleResolution": "node",
-    "lib": ["es2021", "dom"],
+    "target": "es6",
+    "module": "commonjs",
+    "lib": ["dom", "es6", "es2017"],
     "jsx": "react",
+    "sourceMap": true,
     "outDir": "lib/es6",
-    "declaration": true,
     "strict": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true,
-    "importHelpers": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "downlevelIteration": true,
     "resolveJsonModule": true,
-    "sourceMap": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/main/index.ts"]
+  "include": ["src"],
+  "exclude": ["node_modules", "lib", "dist"]
 }
