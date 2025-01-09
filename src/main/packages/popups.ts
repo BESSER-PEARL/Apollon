@@ -39,6 +39,8 @@ import { UMLStateMergeNodeUpdate } from './uml-state-diagram/uml-state-merge-nod
 import { UMLStateTransitionUpdate } from './uml-state-diagram/uml-state-transition/uml-state-transition-update';
 import { UMLStateCodeBlockUpdate } from './uml-state-diagram/uml-state-code-block/uml-state-code-block-update';
 import { UMLStateUpdate } from './uml-state-diagram/uml-state/uml-state-update';
+import { ClassOCLConstraintUpdate } from './uml-class-diagram/uml-class-ocl/uml-class-ocl-constraint-update';
+
 
 export type Popups = { [key in UMLElementType | UMLRelationshipType]: ComponentType<{ element: any }> | null };
 export const Popups: { [key in UMLElementType | UMLRelationshipType]: ComponentType<{ element: any }> | null } = {
@@ -50,6 +52,7 @@ export const Popups: { [key in UMLElementType | UMLRelationshipType]: ComponentT
   [UMLElementType.Enumeration]: UMLClassifierUpdate,
   [UMLElementType.ClassAttribute]: null,
   [UMLElementType.ClassMethod]: null,
+  [UMLElementType.ClassOCLConstraint]: ClassOCLConstraintUpdate,
   [UMLElementType.ObjectName]: UMLObjectNameUpdate,
   [UMLElementType.ObjectAttribute]: null,
   [UMLElementType.ObjectMethod]: null,
