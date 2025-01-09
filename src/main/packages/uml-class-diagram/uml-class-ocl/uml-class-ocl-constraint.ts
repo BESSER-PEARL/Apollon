@@ -12,6 +12,10 @@ export class ClassOCLConstraint extends UMLElement implements IUMLClassOCLConstr
   type: UMLElementType = UMLElementType.ClassOCLConstraint;
   constraint: string = '';
 
+  private static readonly MIN_WIDTH = 160;
+  private static readonly MIN_HEIGHT = 70;
+  private static readonly PADDING = 20;
+
   constructor(values?: DeepPartial<IUMLClassOCLConstraint>) {
     super(values);
     if (values?.constraint !== undefined) {
@@ -61,16 +65,9 @@ export class ClassOCLConstraint extends UMLElement implements IUMLClassOCLConstr
   }
 
   private adjustSizeToContent() {
-    const minWidth = 160;
-    const minHeight = 50;
-    const maxWidth = Math.max(minWidth, this.bounds.width || 400);
-    const maxHeight = Math.max(minHeight, this.bounds.height || 200);
-
-    if (this.constraint) {
-      const lines = this.wrapText(this.constraint, maxWidth);
-      const textHeight = Math.min((lines.length * 20) + 20, maxHeight);
-      this.bounds.height = textHeight;
-    }
+    // Ensure minimum dimensions
+    this.bounds.width = Math.max(ClassOCLConstraint.MIN_WIDTH, this.bounds.width || ClassOCLConstraint.MIN_WIDTH);
+    this.bounds.height = Math.max(ClassOCLConstraint.MIN_HEIGHT, this.bounds.height || ClassOCLConstraint.MIN_HEIGHT);
   }
 
   render(canvas: ILayer): ILayoutable[] {

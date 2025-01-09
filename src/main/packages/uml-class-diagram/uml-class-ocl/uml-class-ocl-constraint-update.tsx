@@ -16,8 +16,31 @@ import { ClassOCLConstraint, IUMLClassOCLConstraint } from './uml-class-ocl-cons
 
 const Flex = styled.div`
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+`;
+
+const StyledTextarea = styled.textarea`
+  font-family: inherit;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: both;
+  min-width: 200px;
+  min-height: 100px;
+  height: 150px;
+  line-height: 1.4;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  padding: 8px;
 `;
 
 type State = { colorOpen: boolean };
@@ -38,16 +61,18 @@ class ClassOCLConstraintUpdateComponent extends Component<Props, State> {
       <div>
         <section>
           <Flex>
-            <Textfield
+            <StyledTextarea
               value={element.constraint || ''}
               placeholder={this.props.translate('packages.OCLConstraint.Constraint')}
-              onChange={this.onUpdate}
+              onChange={(e) => this.onUpdate(e.target.value)}
               autoFocus
             />
-            <ColorButton onClick={this.toggleColor} />
-            <Button color="link" tabIndex={-1} onClick={() => this.props.delete(element.id)}>
-              <TrashIcon />
-            </Button>
+            <ButtonRow>
+              <ColorButton onClick={this.toggleColor} />
+              <Button color="link" tabIndex={-1} onClick={() => this.props.delete(element.id)}>
+                <TrashIcon />
+              </Button>
+            </ButtonRow>
           </Flex>
         </section>
         <StylePane
