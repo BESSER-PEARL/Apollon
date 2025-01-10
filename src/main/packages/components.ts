@@ -143,6 +143,7 @@ export const Components: {
   [UMLRelationshipType.ClassInheritance]: UMLAssociationComponent,
   [UMLRelationshipType.ClassRealization]: UMLAssociationComponent,
   [UMLRelationshipType.ClassUnidirectional]: UMLAssociationComponent,
+  [UMLRelationshipType.ClassOCLLink]: UMLAssociationComponent,
   [UMLRelationshipType.ObjectLink]: UMLObjectLinkComponent,
   [UMLRelationshipType.ActivityControlFlow]: UMLActivityControlFlowComponent,
   [UMLRelationshipType.UseCaseAssociation]: UMLUseCaseAssociationComponent,

@@ -41,7 +41,6 @@ import { UMLStateCodeBlockUpdate } from './uml-state-diagram/uml-state-code-bloc
 import { UMLStateUpdate } from './uml-state-diagram/uml-state/uml-state-update';
 import { ClassOCLConstraintUpdate } from './uml-class-diagram/uml-class-ocl/uml-class-ocl-constraint-update';
 
-
 export type Popups = { [key in UMLElementType | UMLRelationshipType]: ComponentType<{ element: any }> | null };
 export const Popups: { [key in UMLElementType | UMLRelationshipType]: ComponentType<{ element: any }> | null } = {
   // Elements
@@ -119,6 +118,7 @@ export const Popups: { [key in UMLElementType | UMLRelationshipType]: ComponentT
   [UMLRelationshipType.ClassInheritance]: UMLClassAssociationUpdate,
   [UMLRelationshipType.ClassRealization]: UMLClassAssociationUpdate,
   [UMLRelationshipType.ClassUnidirectional]: UMLClassAssociationUpdate,
+  [UMLRelationshipType.ClassOCLLink]: UMLClassAssociationUpdate,
   [UMLRelationshipType.ObjectLink]: DefaultRelationshipPopup,
   [UMLRelationshipType.ActivityControlFlow]: UMLActivityControlFlowUpdate,
   [UMLRelationshipType.UseCaseAssociation]: UMLUseCaseAssociationUpdate,

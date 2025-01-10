@@ -17,4 +17,5 @@ export const ClassRelationshipType = {
   ClassDependency: 'ClassDependency',
   ClassAggregation: 'ClassAggregation',
   ClassComposition: 'ClassComposition',
+  ClassOCLLink: 'ClassOCLLink',
 } as const;
