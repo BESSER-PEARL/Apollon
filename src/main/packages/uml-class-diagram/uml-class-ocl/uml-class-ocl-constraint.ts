@@ -1,5 +1,6 @@
 import { DeepPartial } from 'redux';
 import { UMLElementType } from '../../uml-element-type';
+import { ClassRelationshipType } from '..';
 import { ILayer } from '../../../services/layouter/layer';
 import { ILayoutable } from '../../../services/layouter/layoutable';
 import { IUMLElement, UMLElement } from '../../../services/uml-element/uml-element';
@@ -9,6 +10,13 @@ export interface IUMLClassOCLConstraint extends IUMLElement {
 }
 
 export class ClassOCLConstraint extends UMLElement implements IUMLClassOCLConstraint {
+
+  
+  // Define supported relationships - only OCL Link
+  static supportedRelationships = [
+    ClassRelationshipType.ClassOCLLink
+  ];
+
   type: UMLElementType = UMLElementType.ClassOCLConstraint;
   constraint: string = '';
 
@@ -35,7 +43,6 @@ export class ClassOCLConstraint extends UMLElement implements IUMLClassOCLConstr
     super.deserialize(values);
     this.constraint = values.constraint || '';
   }
-
 
   private wrapText(text: string, maxWidth: number): string[] {
     if (!text) return [];

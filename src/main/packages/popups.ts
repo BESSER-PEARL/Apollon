@@ -118,7 +118,7 @@ export const Popups: { [key in UMLElementType | UMLRelationshipType]: ComponentT
   [UMLRelationshipType.ClassInheritance]: UMLClassAssociationUpdate,
   [UMLRelationshipType.ClassRealization]: UMLClassAssociationUpdate,
   [UMLRelationshipType.ClassUnidirectional]: UMLClassAssociationUpdate,
-  [UMLRelationshipType.ClassOCLLink]: UMLClassAssociationUpdate,
+  [UMLRelationshipType.ClassOCLLink]: DefaultRelationshipPopup,
   [UMLRelationshipType.ObjectLink]: DefaultRelationshipPopup,
   [UMLRelationshipType.ActivityControlFlow]: UMLActivityControlFlowUpdate,
   [UMLRelationshipType.UseCaseAssociation]: UMLUseCaseAssociationUpdate,

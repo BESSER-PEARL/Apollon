@@ -124,9 +124,6 @@ class ClassAssociationComponent extends Component<Props, State> {
             <Dropdown.Item value={ClassRelationshipType.ClassInheritance}>
               {this.props.translate('packages.ClassDiagram.ClassInheritance')}
             </Dropdown.Item>
-            <Dropdown.Item value={ClassRelationshipType.ClassOCLLink}>
-              {"OCL Link"}
-            </Dropdown.Item>
            {/* <Dropdown.Item value={ClassRelationshipType.ClassRealization}>
               {this.props.translate('packages.ClassDiagram.ClassRealization')}
             </Dropdown.Item>*/}
