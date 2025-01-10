@@ -10,17 +10,20 @@ ENV HUSKY=0
 ENV DISABLE_HUSKY=1
 ENV CI=true
 
-# # Add monaco-editor to package.json before installing
-# RUN npm pkg set dependencies.monaco-editor="0.52.0"
-
 # Copy the rest of the application code
 COPY . .
 
 # Install dependencies without running scripts
 RUN npm install --ignore-scripts
 
-# Expose the port the app runs on
-EXPOSE 8888
+# Build the production version
+RUN npm run build
 
-# Start the application
-CMD ["npm", "start"]
+# Expose the port the app runs on
+EXPOSE 8080
+
+# Install a simple HTTP server for serving static files
+RUN npm install -g http-server
+
+# Start the server pointing to the dist directory
+CMD ["http-server", "dist", "-p", "8080"]
