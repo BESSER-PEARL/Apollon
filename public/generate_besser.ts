@@ -13,8 +13,6 @@ export async function exportBuml(editorInstance: any) {
       return;
     }
 
-    // Get OCL constraints from localStorage
-    const oclConstraints = localStorage.getItem('diagramOCL') || '';
 
     const response = await fetch('http://localhost:8000/export-buml', {
       method: 'POST',
@@ -24,7 +22,6 @@ export async function exportBuml(editorInstance: any) {
       body: JSON.stringify({
         elements: diagramData,
         generator: "buml",
-        ocl: oclConstraints,  // Add OCL constraints to the request
       }),
     });
 

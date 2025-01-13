@@ -120,7 +120,7 @@ export const getMarkerForTypeForUMLAssociation = (relationshipType: UMLRelations
       case ClassRelationshipType.ClassRealization:
         return Marker.Triangle;
       case ClassRelationshipType.ClassOCLLink:
-        return Marker.Arrow;
+        //return Marker.Arrow;
     }
   })(relationshipType);
 };
