@@ -108,18 +108,34 @@ export function showValidationMessage(message: string, isError: boolean = false)
 }
 
 export function validateBeforeGeneration(editor: Apollon.ApollonEditor): boolean {
-    // First check for duplicate class names
-    const classNameResult = validateClassNames(editor);
-    if (!classNameResult.isValid) {
+    if (!editor || !editor.model) {
         showValidationMessage(
-            "⚠️ Cannot generate code:\n\n" + classNameResult.message + 
-            "\n\nPlease ensure all class names are unique.",
+            "⚠️ Editor is not properly initialized or doesn't have a model yet!",
             true
         );
         return false;
     }
 
-    // Then check associations
+    // Check if model is empty
+    if (Object.keys(editor.model.elements).length === 0) {
+        showValidationMessage(
+            "⚠️ The model is empty. Please add some classes before generating code.",
+            true
+        );
+        return false;
+    }
+
+    const classNameResult = validateClassNames(editor);
+    if (!classNameResult.isValid) {
+        showValidationMessage(
+            "⚠️ Some class names are not unique. Code generation will continue, but certain names have been modified to avoid duplicates.\n\n" +
+            classNameResult.message +
+            "\n\nPlease review and update the class names if necessary.",
+            true
+        );
+        return true;
+    }
+
     const associationResult = validateAssociationEnds(editor);
     if (!associationResult.isValid) {
         showValidationMessage(
