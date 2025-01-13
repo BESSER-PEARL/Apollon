@@ -43,12 +43,17 @@
     .delete-button:hover {
       background-color: #d32f2f;
     }
+
+    #messageText {
+      white-space: pre-line;
+      text-align: left;
+      line-height: 1.5;
+      margin: 10px 0;
+    }
   </style>
 </head>
 
-<!-- <img class="logo-img" src="images/logo.png" />
-<span>&nbsp;&nbsp;&nbsp;</span> -->
-<!-- <span style="font-size: 1.2em; color: white;">&nbsp;×&nbsp;</span> -->
+
 <body>
   <header class="navbar">
     <a class="navbar-brand logo float-left">
@@ -124,6 +129,12 @@
         </div>
         <div class="switch">
           <button id="generateButton" class="generate-button">Generate/Download</button>
+        </div>
+      </section>
+      <section id="oclConstraintsSection" style="display: none;">
+        <h3 class="header">OCL Constraints</h3>
+        <div class="switch">
+          <button onclick="window.apollon.checkOclConstraints()">Check OCL</button>
         </div>
       </section>
       <!-- <section id="oclConstraintsSection" style="display: none;">
@@ -213,6 +224,14 @@
       <div class="popup-buttons">
         <button onclick="window.apollon.saveOcl()">Save</button>
         <button onclick="document.getElementById('oclPopup').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div id="messagePopup" class="popup-overlay" style="display: none;">
+    <div class="popup-content">
+      <p id="messageText"></p>
+      <div class="popup-buttons">
+        <button onclick="document.getElementById('messagePopup').style.display='none'">Close</button>
       </div>
     </div>
   </div>

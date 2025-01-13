@@ -2,7 +2,7 @@ import * as Apollon from '../src/main';
 import * as themings from './themings.json';
 import('./styles.css');
 import { exportDiagram, importDiagram } from '../src/main/services/diagramExportImport/diagramExportService';
-import { generateOutput, convertBumlToJson, exportBuml } from './generate_besser';
+import { generateOutput, convertBumlToJson, exportBuml, checkOclConstraints } from './generate_besser';
 import { getDiagramData } from './utils.ts';
 
 const container = document.getElementById('apollon')!;
@@ -396,8 +396,7 @@ interface ApollonGlobal {
   importDiagram: (file: File) => Promise<void>;
   generateCode?: (generatorType: string) => Promise<void>;
   convertBumlToJson?: (file: File) => Promise<void>;
-  openOclPopup: () => void;
-  saveOcl: () => void;
+  checkOclConstraints: () => Promise<void>;
 }
 
 // Then declare it as part of the global Window interface
@@ -429,55 +428,33 @@ const setupGlobalApollon = (editor: Apollon.ApollonEditor | null) => {
     },
     generateCode: window.apollon?.generateCode,
     convertBumlToJson: window.apollon?.convertBumlToJson,
-    openOclPopup: () => {
-      const popup = document.getElementById('oclPopup');
-      const textarea = document.getElementById('oclText') as HTMLTextAreaElement;
-      
-      if (!popup || !textarea) {
-        console.error('Required OCL popup elements not found');
-        return;
-      }
-
-      // Load saved OCL
-      const savedOcl = localStorage.getItem('diagramOCL') || '';
-      textarea.value = savedOcl;
-      
-      // Show popup
-      popup.style.display = 'flex';
-
-      // Close on outside click
-      const closeOnOutsideClick = (e: MouseEvent) => {
-        if (e.target === popup) {
-          popup.style.display = 'none';
-          document.removeEventListener('click', closeOnOutsideClick);
-        }
-      };
-      document.addEventListener('click', closeOnOutsideClick);
-    },
-
-    saveOcl: () => {
-      const popup = document.getElementById('oclPopup') as HTMLElement;
-      const textarea = document.getElementById('oclText') as HTMLTextAreaElement;
-      
-      if (!popup || !textarea) {
-        console.error('Required OCL elements not found');
-        return;
-      }
-
+    
+    checkOclConstraints: async () => {
       try {
-        // Basic OCL validation could be added here
-        const oclContent = textarea.value.trim();
+        const currentEditor = (window as any).editor;
+        if (!currentEditor) {
+          throw new Error("Editor is not initialized");
+        }
+
+        const result = await checkOclConstraints(currentEditor);
         
-        // Save OCL
-        localStorage.setItem('diagramOCL', oclContent);
-        
-        // Hide popup
-        popup.style.display = 'none';
+        // Show result in popup with line breaks
+        const popup = document.getElementById('messagePopup');
+        const messageText = document.getElementById('messageText');
+        if (popup && messageText) {
+          messageText.innerHTML = result.message.replace(/\n/g, '<br>');
+          popup.style.display = 'flex';
+        }
       } catch (error) {
-        console.error('Error saving OCL:', error);
-        alert('Failed to save OCL constraints');
+        // Show error in popup
+        const popup = document.getElementById('messagePopup');
+        const messageText = document.getElementById('messageText');
+        if (popup && messageText) {
+          messageText.innerHTML = `Error: ${error.message}`.replace(/\n/g, '<br>');
+          popup.style.display = 'flex';
+        }
       }
-    }
+    },
   };
 
   window.apollon = apollonGlobal;

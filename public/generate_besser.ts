@@ -1,4 +1,5 @@
 import { getDiagramData } from './utils';
+import { validateBeforeGeneration } from './validation';
 
 export async function exportBuml(editorInstance: any) {
   try {
@@ -57,6 +58,11 @@ export async function generateOutput(generatorType: string) {
 
     if (!editorInstance || !editorInstance.model) {
       console.error("Editor is not properly initialized or doesn't have a model yet!");
+      return;
+    }
+
+    // Add validation before generation
+    if (!validateBeforeGeneration(editorInstance)) {
       return;
     }
 
@@ -129,7 +135,35 @@ export async function generateOutput(generatorType: string) {
   }
 }
 
+export async function checkOclConstraints(editorInstance: any) {
+  try {
+    if (!editorInstance || !editorInstance.model) {
+      throw new Error("Editor is not properly initialized");
+    }
 
+    const diagramData = getDiagramData(editorInstance);
+
+    const response = await fetch('http://localhost:8000/check-ocl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        elements: diagramData
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error during OCL check:', error);
+    throw error;
+  }
+}
 
 // Function to handle the generation button event
 function setupGenerateButton() {
