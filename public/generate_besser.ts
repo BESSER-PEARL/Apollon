@@ -136,7 +136,16 @@ export async function generateOutput(generatorType: string) {
 }
 
 export async function checkOclConstraints(editorInstance: any) {
+  const button = document.querySelector('[onclick="window.apollon.checkOclConstraints()"]') as HTMLButtonElement;
+  if (!button) return;
+
   try {
+    // Add loading state
+    const originalText = button.innerHTML;
+    button.classList.add('button-with-spinner', 'loading');
+    button.innerHTML = '<div class="loading-spinner"></div>Checking...';
+    button.disabled = true;
+
     if (!editorInstance || !editorInstance.model) {
       throw new Error("Editor is not properly initialized");
     }
@@ -162,6 +171,13 @@ export async function checkOclConstraints(editorInstance: any) {
   } catch (error) {
     console.error('Error during OCL check:', error);
     throw error;
+  } finally {
+    // Reset button state
+    if (button) {
+      button.classList.remove('button-with-spinner', 'loading');
+      button.innerHTML = 'Check OCL';
+      button.disabled = false;
+    }
   }
 }
 
